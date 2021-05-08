@@ -56,6 +56,7 @@ def save_img(ser: pd.Series) -> str:
     logger.info(f'saving: {img_path}')
     return img_path
 
+
 @slibtk.with_cache(Paths.CACHES)
 def make_charts(n: int = 1000) -> pd.DataFrame:
     df = pd.Series(np.random.rand(n)).to_frame('value').reset_index()
@@ -73,16 +74,12 @@ def parse_label(fname: str):
 
 df = make_charts()
 
-path = Path('/Users/alexlewzey/Desktop/img_factory/data/raw/0_0.958152839735182.png')
+path = next(Paths.RAW.iterdir())
 im = Image.open(path)
 im.to_thumb(128, 128)
 plt.show()
 
 fns = get_image_files(Paths.RAW)
-fns
-
-
-df.head(15)
 
 charts = DataBlock(
     blocks=(ImageBlock, RegressionBlock),
